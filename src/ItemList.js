@@ -63,7 +63,7 @@ export default function ItemList(props) {
           <Select fullWidth value={rating} onChange={(e) => {setRating(e.target.value)}}>
             <MenuItem value={-1}>None</MenuItem>
               {safetyRatings.map((ratingText, ratingValue) => 
-                  <MenuItem value={ratingValue}>{ratingText}</MenuItem>
+                  <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
               )}
           </Select>
         </Grid>
@@ -71,7 +71,7 @@ export default function ItemList(props) {
           <Select fullWidth value={category} onChange={(e) => {setCategory(e.target.value)}}>
               <MenuItem value={-1}>No Category</MenuItem>
               {itemCategories.map((categoryText, categoryValue) => 
-                  <MenuItem value={categoryValue}>{categoryText}</MenuItem>
+                  <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
               )}
           </Select>
         </Grid>          

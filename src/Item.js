@@ -135,13 +135,13 @@ export default function Item(props) {
                     <TextField fullWidth size='small' label='Name' disabled={updating} value={editName} onChange={(e) => {setEditName(e.target.value)}} />
                     <Select disabled={updating} value={editRating} onChange={(e) => {setEditRating(e.target.value)}}>
                         {safetyRatings.map((ratingText, ratingValue) => 
-                            <MenuItem value={ratingValue}>{ratingText}</MenuItem>
+                            <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
                         )}
                     </Select>
                     <Select fullWidth disabled={updating} value={editCategory} onChange={(e) => {setEditCategory(e.target.value)}}>
                         <MenuItem value={-1}>No Category</MenuItem>
                         {itemCategories.map((categoryText, categoryValue) => 
-                            <MenuItem value={categoryValue}>{categoryText}</MenuItem>
+                            <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
                         )}
                     </Select>
                 </Stack>

@@ -70,7 +70,7 @@ export default function CreateItem(props) {
             <Grid item xs={12} sm={6} md={12} lg={12}>
                 <Select fullWidth disabled={updating} value={rating} onChange={(e) => {setRating(e.target.value)}}>
                     {safetyRatings.map((ratingText, ratingValue) => 
-                        <MenuItem value={ratingValue}>{ratingText}</MenuItem>
+                        <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
                     )}
                 </Select>
             </Grid>
@@ -78,7 +78,7 @@ export default function CreateItem(props) {
                 <Select fullWidth disabled={updating} value={category} onChange={(e) => {setCategory(e.target.value)}}>
                     <MenuItem value={-1}>No Category</MenuItem>
                     {itemCategories.map((categoryText, categoryValue) => 
-                        <MenuItem value={categoryValue}>{categoryText}</MenuItem>
+                        <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
                     )}
                 </Select>
             </Grid>
