@@ -80,10 +80,14 @@ export default function Item(props) {
     }
 
     const getDangerLevelColor = (level) => {
-        if (level > 3) {return 'error'}
+        if (level == 6) {return 'teeth'}
+        else if (level == 7) {return 'sensory'}
+        else if (level == 5) {return 'allergen'}
+        else if (level > 3) {return 'error'}
         else if (level > 2) {return 'warning'}
+        else if (level == 2) {return 'info'}
         else if (level == 1) {return 'success'}
-        else {return 'info'}
+        else {return 'secondary'}
     }
 
     const displayDeleteDialog =
@@ -107,7 +111,7 @@ export default function Item(props) {
                 <Chip variant='filled' color={getDangerLevelColor(itemData.rating)} label={itemData.name} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={5}>
-                        <Chip variant='filled' color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
+                        <Chip variant={itemData.rating == 0 ? 'outlined' : 'filled'} color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={5}>
                         <Typography textAlign={'center'} >{itemCategories[itemData.category]}</Typography>

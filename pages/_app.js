@@ -24,6 +24,24 @@ let theme = createTheme({
 			dark: '#005662',
 			contrastText: '#fff',
 		},
+		teeth: {
+			light: '#ffffff',
+			main: '#ffffff',
+			dark: '#ffffff',
+			contrastText: '#000',
+		},
+		gentleWarning: {
+			main: '#ff9800',
+			contrastText: '#000',
+		},
+		sensory: {
+			main: '#74735a',
+			contrastText: '#202007',
+		},
+		allergen: {
+			main: '#e7ca24',
+			contrastText: '#000',
+		},
 	}
 });
 
