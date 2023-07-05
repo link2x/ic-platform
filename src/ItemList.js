@@ -22,6 +22,7 @@ export default function ItemList(props) {
 
   const userID = props.userID
   const itemData = props.itemData
+  const readOnly = props.readOnly
 
   const [ name, setName ] = React.useState('')
   const [ rating, setRating ] = React.useState(-1)
@@ -90,7 +91,7 @@ export default function ItemList(props) {
       </Grid>
       <Stack direction='column' spacing={2}>
           {filterData.map((item, index) => 
-              <Item userID={userID} itemData={item} index={index} key={index} />
+              <Item readOnly={readOnly} userID={userID} itemData={item} index={index} key={index} />
           )}
       </Stack>
     </Paper>

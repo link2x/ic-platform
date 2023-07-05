@@ -85,7 +85,7 @@ export default function ShowUserItems() {
                 <Box sx={{flexGrow: 1}} />
                 <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
             </Stack>
-            <ItemList userID={user.uid} itemData={itemData} />
+            <ItemList readOnly userID={user.uid} itemData={itemData} />
         </Container>
     )
     else if (user) return (
