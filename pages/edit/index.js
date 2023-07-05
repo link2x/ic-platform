@@ -80,7 +80,7 @@ export default function Admin() {
             <LoginBox />
         </Container>
     )
-    else if (user && userData?.canEdit) return (
+    else if (user) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
             <Stack direction={{xs: 'column', sm: 'column', md:'row', lg:'row', xl:'row'}} spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
                 <Typography>Signed In As {user.email}</Typography>
@@ -92,21 +92,5 @@ export default function Admin() {
             <CreateItem userID={user.uid} itemData={itemData} />
             <ItemList userID={user.uid} itemData={itemData} />
         </Container>
-    )
-    else if (user && !userData?.canEdit) return (
-        <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <Stack direction='row' spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
-                <Typography>Signed In As {user.email}</Typography>
-                <Box sx={{flexGrow: 1}} />
-                <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
-            </Stack>
-            <Typography>Account must be manually enabled.</Typography>
-            <Typography>User ID: {user.uid}</Typography>
-        </Container>
-    )
-    else if (user) return (
-        <div>
-            Loading...
-        </div>
     )
 }

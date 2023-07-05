@@ -33,6 +33,7 @@ export default function ShowUserItems() {
     const [ password, setPassword ] = React.useState();
 
     const [ userData, setUserData ] = React.useState();
+    const [ userItemData, setUserItemData ] = React.useState();
     const [ itemData, setItemData ] = React.useState([]);
 
     const [ forceUpdate, setForceUpdate ] = React.useState(0);
@@ -49,7 +50,15 @@ export default function ShowUserItems() {
     }
 
     React.useEffect(() => {
-        if (user) {
+        const userItemDocument = doc(db, 'items/'+userID)
+        getDoc(userItemDocument).then((doc) => {
+            setUserItemData(doc.data())
+        })
+    }, [userID])
+
+    React.useEffect(() => {
+        if (userID) {
+
         const itemCollection = collection(db, 'items/' + userID + '/items')
         const itemQuery = query(itemCollection, orderBy('createTimestamp', 'desc'))
         const unsubGetItems = onSnapshot(itemQuery, (docs) => {
@@ -64,7 +73,7 @@ export default function ShowUserItems() {
 
         return () => unsubGetItems()
         }
-    }, [ user, forceUpdate ] )
+    }, [ userID, forceUpdate, user ] )
 
     React.useMemo(() => {
         if (user) {
@@ -72,20 +81,23 @@ export default function ShowUserItems() {
         }
     }, [ user ])
 
-    if (loading) return (<div>Loading...</div>)
-    else if (!user) return(
-        <Container>
-            <LoginBox />
-        </Container>
-    )
-    else if (user && userData?.canView) return (
+    if ((user && userItemData?.allowView?.includes(user.uid)) || (userItemData?.private == false)) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <Stack direction='row' spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
+            {user && <Stack direction='row' spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
                 <Typography>Signed In As {user.email}</Typography>
                 <Box sx={{flexGrow: 1}} />
                 <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
+            </Stack>}
+            <ItemList readOnly userID={userID} itemData={itemData} />
+        </Container>
+    )
+    else if (loading || !userItemData) return (<div>Loading...</div>)
+    else if (!user) return(
+        <Container maxWidth='xl'>
+            <Stack direction='column' sx={{my: '4em', alignItems: 'center'}}>
+                <Typography variant='h5'>This list is private, please sign in.</Typography>
             </Stack>
-            <ItemList readOnly userID={user.uid} itemData={itemData} />
+            <LoginBox />
         </Container>
     )
     else if (user) return (
