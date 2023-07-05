@@ -166,7 +166,7 @@ export default function Item(props) {
         </Grid>
 
     return(
-        <Card elevation={2}>
+        <Card elevation={3}>
             {editMode ? displayEdit : displayNormal}
         </Card>
     )

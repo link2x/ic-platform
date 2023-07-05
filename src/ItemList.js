@@ -46,7 +46,13 @@ export default function ItemList(props) {
           input => (category == -1) ? input : input.category == category
         )
       )
-  }, [name, rating, itemData])
+  }, [name, rating, category, itemData])
+
+  const clearFilters = () => {
+    setName('')
+    setRating(-1)
+    setCategory(-1)
+  }
 
   return(
     <Paper elevation={1} sx={{my: '1em', p: '1em'}}>
@@ -75,13 +81,16 @@ export default function ItemList(props) {
                   <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
               )}
           </Select>
-        </Grid>          
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Button fullWidth variant='outlined' onClick={clearFilters} >Clear Filters</Button>
+        </Grid>
       </Grid>
       <Grid container spacing={2} sx={{mb: '1em', px: '1em', alignContent: 'center', alignItems: 'center'}}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={10}>
           <Typography variant='body1'>{filterData.length} Items</Typography>
         </Grid>
-        <Grid item xs={12} md={1}>
+        <Grid item xs={12} md={2}>
             <Stack direction='row' sx={{justifyContent: 'center'}}>
               <IconButton onClick={triggerRefresh}>
                 <RefreshIcon />
