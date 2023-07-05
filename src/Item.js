@@ -79,6 +79,13 @@ export default function Item(props) {
         })
     }
 
+    const getDangerLevelColor = (level) => {
+        if (level > 3) {return 'error'}
+        else if (level > 2) {return 'warning'}
+        else if (level == 1) {return 'success'}
+        else {return 'info'}
+    }
+
     const displayDeleteDialog =
         <Dialog maxWidth='lg' fullWidth open={deleteDialog} onClose={handleCloseDeleteDialog}>
             <DialogTitle>Delete this item?</DialogTitle>
@@ -97,10 +104,10 @@ export default function Item(props) {
             <Grid item xs={12} sm={12} md={10}>
                 <Grid container direction='row' spacing={1} sx={{alignItems: 'center'}}>
                 <Grid item xs={12} sm={6} md={5}>
-                        <Typography textAlign={'center'} >{itemData.name}</Typography>
+                <Chip variant='filled' color={getDangerLevelColor(itemData.rating)} label={itemData.name} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={5}>
-                        <Typography textAlign={'center'} >{safetyRatings[itemData.rating]}</Typography>
+                        <Chip variant='filled' color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={5}>
                         <Typography textAlign={'center'} >{itemCategories[itemData.category]}</Typography>

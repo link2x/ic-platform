@@ -6,11 +6,14 @@ import { collection, doc, getDoc, getDocs, setDoc, orderBy, query, onSnapshot, w
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
+
+import { authErrors } from './constants';
 
 export default function LoginBox() {
 
@@ -26,19 +29,23 @@ export default function LoginBox() {
 
   const [ forceUpdate, setForceUpdate ] = React.useState(0);
 
+  const [ errorText, setErrorText ] = React.useState('')
+
   const triggerRefresh = () => {
       setForceUpdate(forceUpdate + 1)
   }
 
   const attemptLogin = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, username, password)
+    signInWithEmailAndPassword(auth, username, password).catch((err) => {setErrorText(authErrors[err.code])})
 }
 
   const attemptRegister = (e) => {
     e.preventDefault();
     if (repeatPassword == password) {
-      createUserWithEmailAndPassword(auth, username, password)
+      createUserWithEmailAndPassword(auth, username, password).catch((err) => {setErrorText(authErrors[err.code])})
+    } else {
+      setErrorText('Passwords must match.')
     }
   }
 
@@ -53,11 +60,16 @@ export default function LoginBox() {
     <Stack direction='column' sx={{alignItems: 'center'}}>
         <Typography variant='h5' sx={{py: '1em'}}>Sign In</Typography>
         <Grid container direction='row' spacing={2} sx={{alignItems: 'center'}}>
+            {errorText && 
+                <Grid item xs={12} sm={12} md={12}>
+                    <Alert severity='error'>{errorText}</Alert>
+                </Grid>
+            }
             <Grid item xs={12} sm={12} md={5}>
-                <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value)}} />
+                <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
             </Grid>
             <Grid item xs={12} sm={12} md={5}>
-                <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value)}} />
+                <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
                 <Button fullWidth variant='contained' size='large' onClick={attemptLogin}>Login</Button>
@@ -71,15 +83,20 @@ export default function LoginBox() {
     <Stack direction='column' sx={{alignItems: 'center'}}>
         <Typography variant='h5' sx={{py: '1em'}}>Sign In</Typography>
         <Grid container direction='row' spacing={2} sx={{alignItems: 'center'}}>
+            {errorText && 
+                <Grid item xs={12} sm={12} md={12}>
+                    <Alert severity='error'>{errorText}</Alert>
+                </Grid>
+            }
             <Grid item xs={12} sm={12} md={5}>
-                <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value)}} />
+                <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
             </Grid>
             <Grid item xs={12} sm={12} md={5}>
-                <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value)}} />
+                <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
             </Grid>
             <Grid item xs={12} sm={12} md={5} />
             <Grid item xs={12} sm={12} md={5}>
-                <TextField fullWidth label='Repeat Password' id='pass' type='password' value={repeatPassword} onChange={(e) => {setRepeatPassword(e.target.value)}} />
+                <TextField fullWidth label='Repeat Password' id='pass' type='password' value={repeatPassword} onChange={(e) => {setRepeatPassword(e.target.value); setErrorText('')}} />
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
                 <Button fullWidth variant='contained' size='large' onClick={attemptRegister}>Register</Button>
