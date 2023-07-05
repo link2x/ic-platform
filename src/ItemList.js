@@ -37,15 +37,17 @@ export default function ItemList(props) {
   }
 
   React.useEffect(() => {
-    setFilterData(
-      itemData.filter(
-        input => input.name.toLowerCase().includes(name.toLowerCase())
-        ).filter(
-          input => (rating == -1) ? input : input.rating == rating
-        ).filter(
-          input => (category == -1) ? input : input.category == category
-        )
-      )
+    let newFilterData = itemData
+    if (name) newFilterData = newFilterData.filter(
+      input => input.name.toLowerCase().includes(name.toLowerCase())
+    )
+    if (rating >= 0) newFilterData = newFilterData.filter(
+      input => (rating == -1) ? input : input.rating == rating
+    )
+    if (category >= 0) newFilterData = newFilterData.filter(
+      input => (category == -1) ? input : input.category == category
+    )
+    setFilterData(newFilterData)
   }, [name, rating, category, itemData])
 
   const clearFilters = () => {
@@ -88,10 +90,10 @@ export default function ItemList(props) {
       </Grid>
       <Grid container spacing={2} sx={{mb: '1em', px: '1em', alignContent: 'center', alignItems: 'center'}}>
         <Grid item xs={12} md={10}>
-          <Typography variant='body1'>{filterData.length} Items</Typography>
+          <Typography variant='body1' sx={{px: '1em'}}>{filterData.length} Items</Typography>
         </Grid>
         <Grid item xs={12} md={2}>
-            <Stack direction='row' sx={{justifyContent: 'center'}}>
+            <Stack direction='row' sx={{justifyContent: 'right', px: '1em'}}>
               <IconButton onClick={triggerRefresh}>
                 <RefreshIcon />
               </IconButton>
