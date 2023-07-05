@@ -50,7 +50,7 @@ export default function ShowUserItems() {
 
     React.useEffect(() => {
         if (user) {
-        const itemCollection = collection(db, 'items/' + user.uid + '/items')
+        const itemCollection = collection(db, 'items/' + userID + '/items')
         const itemQuery = query(itemCollection, orderBy('createTimestamp', 'desc'))
         const unsubGetItems = onSnapshot(itemQuery, (docs) => {
                 let newItemData = []
