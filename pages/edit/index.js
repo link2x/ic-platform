@@ -82,9 +82,11 @@ export default function Admin() {
     )
     else if (user && userData?.canEdit) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <Stack direction='row' spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
+            <Stack direction={{xs: 'column', sm: 'column', md:'row', lg:'row', xl:'row'}} spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
                 <Typography>Signed In As {user.email}</Typography>
                 <Box sx={{flexGrow: 1}} />
+                <TextField fullWidth value={'https://ic.l2x.us/u/'+user.uid} />
+                
                 <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
             </Stack>
             <CreateItem userID={user.uid} itemData={itemData} />
