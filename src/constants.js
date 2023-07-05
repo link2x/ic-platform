@@ -1,6 +1,6 @@
 const safetyRatings = ['unknown', 'safe', 'sometimes unsafe', 'usually unsafe', 'always unsafe', 'allergen', 'tooth sensitivity', 'sensory issue']
 
-const itemCategories = ['Vegetables', 'Meats', 'Spices', 'Condiments', 'Fruits', 'Preservatives', 'Dairy', 'Drinks', 'Grains']
+const itemCategories = ['Vegetables', 'Meats', 'Spices', 'Condiments', 'Fruits', 'Preservatives', 'Dairy', 'Drinks', 'Grains', 'Prepared Foods']
 
 const authErrors = {
   "auth/wrong-password": "The password is invalid or the user does not have a password.",
