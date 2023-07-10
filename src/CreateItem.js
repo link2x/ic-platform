@@ -44,6 +44,7 @@ export default function CreateItem(props) {
     }
 
     const handleCloseCreateDialog = () => {
+        setUpdating(false)
         setCreateDialog(false)
     }
 
