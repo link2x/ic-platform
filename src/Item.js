@@ -41,6 +41,12 @@ export default function Item(props) {
 
     const itemDocument = doc(db, 'items/' + userID + '/items/' + itemData.itemID)
 
+    React.useEffect(() => {
+        setEditName(itemData.name)
+        setEditRating(itemData.rating)
+        if (itemData?.category) setEditCategory(itemData?.category)
+    }, [itemData])
+
     const handleDelete = () => {
         setUpdating(true)
         deleteDoc(itemDocument).then(() => {
