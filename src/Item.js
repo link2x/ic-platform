@@ -51,6 +51,7 @@ export default function Item(props) {
         setUpdating(true)
         deleteDoc(itemDocument).then(() => {
             setDeleteDialog(false)
+            setEditMode(false)
             setUpdating(false)
         })
     }
