@@ -13,6 +13,7 @@ import Button from '@mui/material/Button'
 import IconButton from "@mui/material/IconButton";
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import Switch from '@mui/material/Switch'
 
 import RefreshIcon from '@mui/icons-material/Refresh'
 
@@ -29,6 +30,7 @@ export default function ItemList(props) {
   const [ category, setCategory ] = React.useState(-1)
 
   const [ filterData, setFilterData ] = React.useState(itemData)
+  const [ showFilterPanel, setShowFilterPanel ] = React.useState(false)
 
   const [ forceUpdate, setForceUpdate ] = React.useState(0);
 
@@ -51,9 +53,14 @@ export default function ItemList(props) {
   }, [name, rating, category, itemData])
 
   const clearFilters = () => {
-    setName('')
-    setRating(-1)
-    setCategory(-1)
+    if (name) setName('')
+    if (rating >= 0) setRating(-1)
+    if (category >= 0) setCategory(-1)
+  }
+
+  const handleFilterPanel = () => {
+    clearFilters()
+    setShowFilterPanel(!showFilterPanel)
   }
 
   return(
@@ -62,37 +69,37 @@ export default function ItemList(props) {
         <Grid item>
           <Typography variant='body1'>Filters</Typography>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <TextField fullWidth value={name}
-            onChange={(e) => {
-                setName(e.target.value)
-                }} label='Search' />
+        <Grid item sx={{flexGrow: 1}} />
+        <Grid item>
+          <Switch checked={showFilterPanel} onChange={handleFilterPanel} />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Select fullWidth value={rating} onChange={(e) => {setRating(e.target.value)}}>
-            <MenuItem value={-1}>None</MenuItem>
-              {safetyRatings.map((ratingText, ratingValue) => 
-                  <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
-              )}
-          </Select>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Select fullWidth value={category} onChange={(e) => {setCategory(e.target.value)}}>
-              <MenuItem value={-1}>No Category</MenuItem>
-              {itemCategories.map((categoryText, categoryValue) => 
-                  <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
-              )}
-          </Select>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Button fullWidth variant='outlined' onClick={clearFilters} >Clear Filters</Button>
-        </Grid>
+        {showFilterPanel && <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Stack direction='column' spacing={2}>
+            <TextField fullWidth value={name}
+              onChange={(e) => {
+                  setName(e.target.value)
+                  }} label='Search' />
+            <Select fullWidth value={rating} onChange={(e) => {setRating(e.target.value)}}>
+              <MenuItem value={-1}>None</MenuItem>
+                {safetyRatings.map((ratingText, ratingValue) => 
+                    <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
+                )}
+            </Select>
+            <Select fullWidth value={category} onChange={(e) => {setCategory(e.target.value)}}>
+                <MenuItem value={-1}>No Category</MenuItem>
+                {itemCategories.map((categoryText, categoryValue) => 
+                    <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
+                )}
+            </Select>
+            <Button fullWidth variant='outlined' onClick={clearFilters} >Clear Filters</Button>
+          </Stack>
+        </Grid>}
       </Grid>
       <Grid container spacing={2} sx={{mb: '1em', px: '1em', alignContent: 'center', alignItems: 'center'}}>
-        <Grid item xs={12} md={10}>
+        <Grid item xs={10} sm={10} md={10} lg={10}>
           <Typography variant='body1' sx={{px: '1em'}}>{filterData.length} Items</Typography>
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
             <Stack direction='row' sx={{justifyContent: 'right', px: '1em'}}>
               <IconButton onClick={triggerRefresh}>
                 <RefreshIcon />

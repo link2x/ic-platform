@@ -103,21 +103,21 @@ export default function Item(props) {
         </Dialog>
 
     const displayNormal = 
-        <Grid container direction='row' spacing={2} sx={{alignItems: 'center', p: '1em'}}>
-            {displayDeleteDialog}
+        <Grid container direction='row' spacing={2} sx={{alignItems: 'center', p: '0.66em', borderLeftWidth: '0.5em', borderColor: getDangerLevelColor(itemData.rating)}}>
             <Grid item xs={12} sm={12} md={10}>
                 <Grid container direction='row' spacing={1} sx={{alignItems: 'center'}}>
-                <Grid item xs={12} sm={6} md={5}>
-                <Chip variant='filled' color={getDangerLevelColor(itemData.rating)} label={itemData.name} />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={5}>
-                        <Chip variant={itemData.rating == 0 ? 'outlined' : 'filled'} color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={5}>
-                        <Typography textAlign={'center'} >{itemCategories[itemData.category]}</Typography>
-                    </Grid>
                     <Grid item xs={12} sm={12} md={2}>
-                        <Chip size='small' label={
+                        {itemData?.category>-1 && <Chip size='small' variant='outlined' textAlign={'center'} label={itemCategories[itemData.category]} /> }
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Stack>
+                            <Typography variant='h6' color={getDangerLevelColor(itemData.rating)}>{itemData.name}</Typography>
+                            <Chip variant={itemData.rating == 0 ? 'outlined' : 'filled'} color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
+                        </Stack>
+                    </Grid>
+                    <Grid item sx={{flexGrow: 1}} />
+                    <Grid item>
+                        <Chip size='small' variant='outlined' label={
                             <Typography variant='caption'>Last Updated: {
                                 itemData?.updateTimestamp ? itemData?.updateTimestamp?.toDate().toLocaleString()
                                     : itemData.createTimestamp.toDate().toLocaleString()
@@ -132,15 +132,13 @@ export default function Item(props) {
                     <Grid item xs={12} sm={6} md={1} xl={1}>
                         <Button fullWidth variant='outlined' onClick={handleEditMode}>Edit</Button>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={1} xl={1}>
-                        <Button fullWidth variant='outlined' color='error' onClick={handleOpenDeleteDialog}>Delete</Button>
-                    </Grid>
                 </>
             }
         </Grid>
 
     const displayEdit =
         <Grid container direction='row' spacing={2} sx={{alignItems: 'center', p: '1em'}}>
+            {displayDeleteDialog}
             <Grid item xs={12} sm={12} md={10}>
                 <Stack direction='column' spacing={2}>
                     <TextField fullWidth size='small' label='Name' disabled={updating} value={editName} onChange={(e) => {setEditName(e.target.value)}} />
@@ -157,11 +155,12 @@ export default function Item(props) {
                     </Select>
                 </Stack>
             </Grid>
-            <Grid item xs={12} sm={6} md={1}>
-                <Button fullWidth variant='outlined' color='error' disabled={updating} onClick={handleCancelEditMode}>Cancel</Button>
-            </Grid>
-            <Grid item xs={12} sm={6} md={1}>
-                <Button fullWidth variant='contained' color='primary' disabled={updating} onClick={handleEditUpdate}>Submit</Button>
+            <Grid item xs={12} sm={6} md={2}>
+                <Stack spacing={2} direction={{md: 'row', lg: 'column'}}>
+                    <Button fullWidth variant='outlined' size='large' color='error' disabled={updating} onClick={handleCancelEditMode}>Cancel</Button>
+                    <Button fullWidth variant='contained' size='large' color='primary' disabled={updating} onClick={handleEditUpdate}>Submit</Button>
+                    <Button fullWidth variant='contained' size='large' color='error' onClick={handleOpenDeleteDialog}>Delete</Button>
+                </Stack>
             </Grid>
         </Grid>
 
