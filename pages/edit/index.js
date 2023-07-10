@@ -82,13 +82,18 @@ export default function Admin() {
     )
     else if (user) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <Stack direction={{xs: 'column', sm: 'column', md:'row', lg:'row', xl:'row'}} spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
-                <Typography>Signed In As {user.email}</Typography>
-                <Box sx={{flexGrow: 1}} />
-                <TextField fullWidth value={'https://ic.l2x.us/u/'+user.uid} />
-                
-                <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
-            </Stack>
+            <Grid container spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
+                <Grid item md={4}>
+                    <Typography>Signed In As {user.email}</Typography>
+                </Grid>
+                <Grid item md={4}>
+                    <TextField fullWidth value={'https://ic.l2x.us/u/'+user.uid} />
+                </Grid>
+                <Grid item sx={{flexGrow: 1}} />
+                <Grid item md={2}>
+                    <Button variant='contained' fullWidth onClick={() => signOut(auth)}>Sign Out</Button>
+                </Grid>
+            </Grid>
             <CreateItem userID={user.uid} itemData={itemData} />
             <ItemList userID={user.uid} itemData={itemData} />
         </Container>

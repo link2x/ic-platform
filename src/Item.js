@@ -129,7 +129,7 @@ export default function Item(props) {
             <Box sx={{flexGrow: 1}} />
             {!readOnly &&
                 <>
-                    <Grid item xs={12} sm={6} md={1} xl={1}>
+                    <Grid item xs={12} sm={12} md={2} xl={2}>
                         <Button fullWidth variant='outlined' onClick={handleEditMode}>Edit</Button>
                     </Grid>
                 </>
@@ -155,11 +155,11 @@ export default function Item(props) {
                     </Select>
                 </Stack>
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
-                <Stack spacing={2} direction={{md: 'row', lg: 'column'}}>
+            <Grid item xs={12} sm={12} md={2}>
+                <Stack spacing={2} direction={{xs: 'column', sm: 'row', md: 'column'}}>
                     <Button fullWidth variant='outlined' size='large' color='error' disabled={updating} onClick={handleCancelEditMode}>Cancel</Button>
-                    <Button fullWidth variant='contained' size='large' color='primary' disabled={updating} onClick={handleEditUpdate}>Submit</Button>
                     <Button fullWidth variant='contained' size='large' color='error' onClick={handleOpenDeleteDialog}>Delete</Button>
+                    <Button fullWidth variant='contained' size='large' color='primary' disabled={updating} onClick={handleEditUpdate}>Submit</Button>
                 </Stack>
             </Grid>
         </Grid>

@@ -76,7 +76,7 @@ export default function CreateItem(props) {
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={12} sm={6} md={8} lg={10}>
+                <Grid item xs={12} sm={12} md={8} lg={10}>
                     <Select fullWidth disabled={updating} value={category} onChange={(e) => {setCategory(e.target.value)}}>
                         <MenuItem value={-1}>No Category</MenuItem>
                         {itemCategories.map((categoryText, categoryValue) => 
