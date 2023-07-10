@@ -7,21 +7,12 @@ import { collection, doc, getDoc, getDocs, setDoc, orderBy, query, onSnapshot, w
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
 
-import RefreshIcon from '@mui/icons-material/Refresh'
-
-import Item from '../../src/Item';
-import CreateItem from '../../src/CreateItem';
 import LoginBox from '../../src/LoginBox';
 import ItemList from '../../src/ItemList';
+import UserBar from '../../src/UserBar';
 
 export default function ShowUserItems() {
     const router = useRouter()
@@ -83,11 +74,7 @@ export default function ShowUserItems() {
 
     if ((user && userItemData?.allowView?.includes(user.uid)) || (userItemData?.private == false)) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            {user && <Stack direction='row' spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
-                <Typography>Signed In As {user.email}</Typography>
-                <Box sx={{flexGrow: 1}} />
-                <Button variant='contained' onClick={() => signOut(auth)}>Sign Out</Button>
-            </Stack>}
+            {user && <UserBar user={user} />}
             <ItemList readOnly userID={userID} itemData={itemData} />
         </Container>
     )

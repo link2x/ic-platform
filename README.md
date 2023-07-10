@@ -1,1 +1,2 @@
-A private tracker for IC-triggering ingredients.
+A public tracker for IC-triggering ingredients.
+https://ic.l2x.us/

@@ -18,8 +18,6 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
-import Link from 'next/link'
-
 import { db } from './firebase'
 import { doc, deleteDoc, setDoc, Timestamp } from 'firebase/firestore'
 
@@ -114,7 +112,7 @@ export default function Item(props) {
             <Grid item xs={12} sm={12} md={10}>
                 <Grid container direction='row' spacing={1} sx={{alignItems: 'center'}}>
                     <Grid item xs={12} sm={12} md={2}>
-                        {itemData?.category>-1 && <Chip size='small' variant='outlined' textAlign={'center'} label={itemCategories[itemData.category]} /> }
+                        {itemData?.category>-1 && <Chip size='small' variant='outlined' label={itemCategories[itemData.category]} /> }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Stack>

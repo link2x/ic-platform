@@ -6,21 +6,11 @@ import { collection, doc, getDoc, getDocs, setDoc, orderBy, query, onSnapshot, w
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
 
-import RefreshIcon from '@mui/icons-material/Refresh'
-
-import Item from '../../src/Item';
 import CreateItem from '../../src/CreateItem';
 import ItemList from '../../src/ItemList';
 import LoginBox from '../../src/LoginBox';
+import UserBar from '../../src/UserBar';
 
 export default function Admin() {
 
@@ -29,7 +19,6 @@ export default function Admin() {
     const [ username, setUsername ] = React.useState();
     const [ password, setPassword ] = React.useState();
 
-    const [ userData, setUserData ] = React.useState();
     const [ itemData, setItemData ] = React.useState([]);
 
     const [ forceUpdate, setForceUpdate ] = React.useState(0);
@@ -41,13 +30,6 @@ export default function Admin() {
     const attemptLogin = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, username, password)
-    }
-
-    const getUser = () => {
-        const userDocument = doc(db, 'users/', user.uid)
-        getDoc(userDocument).then((doc) => {
-            setUserData(doc.data())
-        })
     }
 
     React.useEffect(() => {
@@ -68,12 +50,6 @@ export default function Admin() {
         }
     }, [ user, forceUpdate ] )
 
-    React.useMemo(() => {
-        if (user) {
-            getUser()
-        }
-    }, [ user ])
-
     if (loading) return (<div>Loading...</div>)
     else if (!user) return(
         <Container>
@@ -82,18 +58,7 @@ export default function Admin() {
     )
     else if (user) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <Grid container spacing={2} sx={{pb: '1em', alignItems: 'center'}}>
-                <Grid item md={4}>
-                    <Typography>Signed In As {user.email}</Typography>
-                </Grid>
-                <Grid item md={4}>
-                    <TextField fullWidth value={'https://ic.l2x.us/u/'+user.uid} />
-                </Grid>
-                <Grid item sx={{flexGrow: 1}} />
-                <Grid item md={2}>
-                    <Button variant='contained' fullWidth onClick={() => signOut(auth)}>Sign Out</Button>
-                </Grid>
-            </Grid>
+            <UserBar showURL user={user} />
             <ItemList userID={user.uid} itemData={itemData} />
             <CreateItem userID={user.uid} itemData={itemData} />
         </Container>
