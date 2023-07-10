@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
+import Alert from '@mui/material/Alert';
 
 import RefreshIcon from '@mui/icons-material/Refresh'
 
@@ -205,7 +206,7 @@ export default function UserBar(props) {
             </ListItemIcon>
             My List
           </MenuItem>
-          <MenuItem disabled onClick={() => {handleOpenSettingsDialog(); handleClose()}}>
+          <MenuItem onClick={() => {handleOpenSettingsDialog(); handleClose()}}>
             <ListItemIcon>
               <Settings />
             </ListItemIcon>

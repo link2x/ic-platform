@@ -31,7 +31,7 @@ export default function UserListItem(props) {
       <Typography>{displayName} ({id})</Typography>
       <Box sx={{flexGrow: 1}} />
       {deleteConfirm ?
-        <Stack direction='row'>
+        <Stack direction='row' spacing={2}>
           <Button variant='contained' size='small' color='error' onClick={() => {setDeleteConfirm(false)}}>Confirm</Button>
           <Button variant='outlined' size='small' color='info' onClick={() => {setDeleteConfirm(false)}}>Cancel</Button>
         </Stack> : <Button variant='outlined' size='small' color='error' onClick={() => {setDeleteConfirm(true)}}>Remove</Button>}
