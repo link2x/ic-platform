@@ -10,6 +10,16 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper';
 
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add'
+
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import Stack from '@mui/material/Stack'
+import DialogContentText from '@mui/material/DialogContentText'
+
 import { db } from './firebase'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
 
@@ -26,6 +36,16 @@ export default function CreateItem(props) {
 
     const [ updating, setUpdating ] = React.useState(false)
     const [ error, setError ] = React.useState('')
+
+    const [ createDialog, setCreateDialog ] = React.useState(false)
+
+    const handleOpenCreateDialog = () => {
+        setCreateDialog(true)
+    }
+
+    const handleCloseCreateDialog = () => {
+        setCreateDialog(false)
+    }
 
     const makeItem = () => {
 
@@ -45,7 +65,7 @@ export default function CreateItem(props) {
                 setName('')
                 setRating(0)
                 setCategory(-1)
-                setUpdating(false)
+                handleCloseCreateDialog()
             })
         } else if (!name) {
             setError('Please enter an item name.')
@@ -53,41 +73,51 @@ export default function CreateItem(props) {
         }
     }
 
-    return(
-        <Paper elevation={1} sx={{my: '1em', p: '1.5em'}}>
-            <Grid container spacing={2} sx={{alignItems: 'center'}}>
-                {error && 
-                    <Grid item xs={12} sm={12} md={12}>
-                        <Alert severity='error'>{error}</Alert>
-                    </Grid>
-                }
-                <Grid item xs={12} sm={6} md={12} lg={12}>
+    const displayCreateDialog =
+        <Dialog maxWidth='lg' fullWidth open={createDialog} onClose={handleCloseCreateDialog}>
+            <DialogTitle>Add new item?</DialogTitle>
+            <DialogContent>
+                <Stack spacing={2} sx={{py: '0.25em'}}>
+                    {error && <Alert severity='error'>{error}</Alert>}
                     <TextField fullWidth value={name}
                         disabled={updating}
                         onChange={(e) => {
                             setName(e.target.value)
                             setError('')
                             }} label='Item Name' />
-                </Grid>
-                <Grid item xs={12} sm={6} md={12} lg={12}>
                     <Select fullWidth disabled={updating} value={rating} onChange={(e) => {setRating(e.target.value)}}>
                         {safetyRatings.map((ratingText, ratingValue) => 
                             <MenuItem key={ratingValue} value={ratingValue}>{ratingText}</MenuItem>
                         )}
                     </Select>
-                </Grid>
-                <Grid item xs={12} sm={12} md={8} lg={10}>
                     <Select fullWidth disabled={updating} value={category} onChange={(e) => {setCategory(e.target.value)}}>
                         <MenuItem value={-1}>No Category</MenuItem>
                         {itemCategories.map((categoryText, categoryValue) => 
                             <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
                         )}
                     </Select>
-                </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={2}>
-                    <Button fullWidth size='large' variant='outlined' disabled={updating} onClick={makeItem}>New Item</Button>
-                </Grid>
-            </Grid>
-        </Paper>
+                </Stack>
+            </DialogContent>
+            <DialogActions>
+                <Button disabled={updating} onClick={handleCloseCreateDialog}>Cancel</Button>
+                <Button variant='contained' color='primary' disabled={updating} onClick={makeItem}>Create</Button>
+            </DialogActions>
+        </Dialog>
+
+    return(
+        <>
+            <Fab color="primary" aria-label="add"
+                onClick={handleOpenCreateDialog}
+                sx={{
+                margin: 0,
+                top: 'auto',
+                right: 20,
+                bottom: 20,
+                left: 'auto',
+                position: 'fixed'}}>
+                <AddIcon />
+            </Fab>
+            {displayCreateDialog}
+        </>
     )
 }

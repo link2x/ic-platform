@@ -94,8 +94,8 @@ export default function Admin() {
                     <Button variant='contained' fullWidth onClick={() => signOut(auth)}>Sign Out</Button>
                 </Grid>
             </Grid>
-            <CreateItem userID={user.uid} itemData={itemData} />
             <ItemList userID={user.uid} itemData={itemData} />
+            <CreateItem userID={user.uid} itemData={itemData} />
         </Container>
     )
 }
