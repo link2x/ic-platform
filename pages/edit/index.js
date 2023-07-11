@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from "next/router"
 
 import { auth, db } from '../../src/firebase'
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
@@ -13,6 +14,8 @@ import LoginBox from '../../src/LoginBox';
 import UserBar from '../../src/UserBar';
 
 export default function Admin() {
+
+    const router = useRouter()
 
     const [user, loading, error] = useAuthState(auth);
 
@@ -58,7 +61,7 @@ export default function Admin() {
     )
     else if (user) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            <UserBar showURL user={user} />
+            <UserBar showURL user={user} router={router} />
             <ItemList userID={user.uid} itemData={itemData} />
             <CreateItem userID={user.uid} itemData={itemData} />
         </Container>

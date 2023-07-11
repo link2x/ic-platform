@@ -74,7 +74,7 @@ export default function ShowUserItems() {
 
     if ((user && userItemData?.allowView?.includes(user.uid)) || (userItemData?.private == false)) return (
         <Container maxWidth='xl' sx={{mt: '1em'}}>
-            {user && <UserBar user={user} />}
+            {user && <UserBar user={user} router={router} />}
             <ItemList readOnly userID={userID} itemData={itemData} />
         </Container>
     )

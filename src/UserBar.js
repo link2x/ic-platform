@@ -43,6 +43,7 @@ export default function UserBar(props) {
 
   const user = props.user
   const showURL = props.showURL
+  const router = props.router
 
   const [ userData, setUserData ] = React.useState(null);
 
@@ -86,6 +87,10 @@ export default function UserBar(props) {
     setUserList(userItemData?.allowView)
   }, [userItemData])
 
+  React.useEffect(() => {
+    console.log(userList)
+  }, [userList])
+
   const [ settingsDialog, setSettingsDialog ] = React.useState(false)
 
   const handleOpenSettingsDialog = () => {
@@ -93,14 +98,84 @@ export default function UserBar(props) {
   }
 
   const handleCloseSettingsDialog = () => {
+      setError('')
       setAddEmail('')
-      setDisplayName(userItemData?.displayName)
+      setDisplayName(userData?.displayName)
       setPrivateMode(userItemData?.private)
       setUserList(userItemData?.allowView)
       setSettingsDialog(false)
   }
 
+  const handleAddEmail = async () => {
+    setUpdating(true)
+    if (!addEmail) {
+      setError('Please enter an email address of a registered user.')
+      setUpdating(false)
+    } else {
+      const userCollection = collection(db, '/users')
+      const userQuery = query(userCollection, where('emailAddress', '==', addEmail))
 
+      const querySnapshot = await getDocs(userQuery);
+
+      if (!querySnapshot.size) {
+        setError('There is no user with that email address.')
+        setUpdating(false)
+      }
+
+      querySnapshot.forEach((doc) => {
+        if (userList.includes(doc.id)) {
+          setError('This user is already a trusted user.')
+          setUpdating(false)
+        } else {
+          setUserList(userList.concat(doc.id))
+          setUpdating(false)
+        }
+      });
+
+      const userDocument = doc(db, 'users/', user.uid)
+      getDoc(userDocument).then((doc) => {
+        setUserData(doc.data())
+        setDisplayName(doc.data()?.displayName)
+      })
+    }
+  }
+
+  const handleDeleteUser = (index) => {
+    let newUserList = userList
+    newUserList.splice(index, 1)
+    setUserList(newUserList)
+    console.log(newUserList)
+  }
+
+  const handleUpdateUser = () => {
+    setUpdating(true)
+
+    const userDocument = doc(db, 'users/' + user.uid)
+    let newUserData = {
+        displayName: displayName
+    }
+    setDoc(userDocument, newUserData, {merge: true}).then(() => {
+      const settingsDocument = doc(db, 'items/' + user.uid)
+      let newSettingsData = {
+          private: privateMode,
+          allowView: userList
+      }
+      setDoc(settingsDocument, newSettingsData, {merge: true}).then(() => {
+        getDoc(userDocument).then((doc) => {
+          setUserData(doc.data())
+          setDisplayName(doc.data()?.displayName)
+        }).then(() => {
+          const userItemDocument = doc(db, 'items/'+user.uid)
+          getDoc(userItemDocument).then((doc) => {
+              setUserItemData(doc.data())
+              setUpdating(false)
+          }).then(() => {
+            setSettingsDialog(false)
+          })
+        })
+      })
+    })
+  }
 
   return(
     <Grid container spacing={2} sx={{py: '1em', alignItems: 'center'}}>
@@ -121,28 +196,30 @@ export default function UserBar(props) {
                       <Stack direction='row' alignItems={'center'}>
                         <Typography variant='body2'>Private Profile</Typography>
                         <Box sx={{flexGrow: 1}} />
-                        <Switch checked={privateMode} onChange={() => setPrivateMode(!privateMode)} />
+                        <Switch checked={privateMode} disabled={updating} onChange={() => setPrivateMode(!privateMode)} />
                       </Stack>
                     </Tooltip>
-                    <Divider />
-                    <Typography>Trusted Users</Typography>
-                    <Grid container direction='row' alignItems={'center'}>
-                      <Grid item xs={12} sm={12} md={8} sx={{pt: '0.5em'}}>
-                        <TextField fullWidth label='Email' size='small' value={addEmail} onChange={(e) => setAddEmail(e.target.value)}/>
+                    {privateMode && <Stack spacing={2} sx={{py: '0.25em'}}>                      
+                      <Divider />
+                      <Typography>Trusted Users</Typography>
+                      <Grid container direction='row' alignItems={'center'}>
+                        <Grid item xs={12} sm={12} md={8} sx={{pt: '0.5em'}}>
+                          <TextField fullWidth label='Email' size='small' value={addEmail} disabled={updating} onChange={(e) => {setAddEmail(e.target.value); setError('')}}/>
+                        </Grid>
+                        <Grid item sx={{flexGrow: 1}} />
+                        <Grid item xs={12} sm={12} md={3} sx={{pt: '0.5em'}}>
+                          <Button fullWidth variant='contained' size='large' disabled={updating} onClick={handleAddEmail}>Add</Button>
+                        </Grid>
                       </Grid>
-                      <Grid item sx={{flexGrow: 1}} />
-                      <Grid item xs={12} sm={12} md={3} sx={{pt: '0.5em'}}>
-                        <Button fullWidth variant='contained' size='large'>Add</Button>
-                      </Grid>
-                    </Grid>
-                    {userList && userList.map((id, index) =>
-                      <UserListItem key={index} id={id} onDelete='' />
-                    )}
+                      {userList && userList.map((id, index) =>
+                        <UserListItem key={index} index={index} id={id} onDelete={() => handleDeleteUser(index)} />
+                      )}
+                    </Stack>}
                 </Stack>
             </DialogContent>
             <DialogActions>
                 <Button disabled={updating} onClick={handleCloseSettingsDialog}>Cancel</Button>
-                <Button variant='contained' color='primary' disabled={updating} >Update</Button>
+                <Button variant='contained' color='primary' disabled={updating} onClick={handleUpdateUser}>Update</Button>
             </DialogActions>
         </Dialog>
 
@@ -200,7 +277,7 @@ export default function UserBar(props) {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => {router.push('/edit'); handleClose()}}>
             <ListItemIcon>
               <Home />
             </ListItemIcon>
