@@ -12,6 +12,7 @@ import CreateItem from '../../src/CreateItem';
 import ItemList from '../../src/ItemList';
 import LoginBox from '../../src/LoginBox';
 import UserBar from '../../src/UserBar';
+import Footer from '../../src/Footer';
 
 export default function Admin() {
 
@@ -64,6 +65,7 @@ export default function Admin() {
             <UserBar showURL user={user} router={router} />
             <ItemList userID={user.uid} itemData={itemData} />
             <CreateItem userID={user.uid} itemData={itemData} />
+            <Footer router={router} />
         </Container>
     )
 }

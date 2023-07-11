@@ -76,6 +76,7 @@ export default function ShowUserItems() {
         <Container maxWidth='xl' sx={{mt: '1em'}}>
             {user && <UserBar user={user} router={router} />}
             <ItemList readOnly userID={userID} itemData={itemData} />
+            <Footer router={router} />
         </Container>
     )
     else if (loading || !userItemData) return (<div>Loading...</div>)

@@ -33,13 +33,15 @@ export default function UserListItem(props) {
 
   if (id && enable) return(
     <Card sx={{p: '0.5em'}}>
-      <Stack direction={{xs: 'column', sm: 'row'}} spacing={2} key={index} alignItems={'center'}>
-        <Typography>{displayName} ({id})</Typography>
-        <Box sx={{flexGrow: 1}} />
+      <Stack direction={{xs: 'column', sm: 'row'}} spacing={2} key={index} justifyContent={'space-between'}>
+        <Stack direction={{xs: 'column'}} alignItems={'center'}>
+          <Typography>{displayName}</Typography>
+          <Typography variant='caption'>({id})</Typography>
+        </Stack>
         {deleteConfirm ?
           <Stack direction='row' spacing={2}>
-            <Button variant='contained' size='small' color='error' onClick={() => {onDelete(); setEnable(false)}}>Confirm</Button>
-            <Button variant='outlined' size='small' color='info' onClick={() => {setDeleteConfirm(false)}}>Cancel</Button>
+            <Button variant='contained' fullWidth size='small' color='error' onClick={() => {onDelete(); setEnable(false)}}>Confirm</Button>
+            <Button variant='outlined' fullWidth size='small' color='info' onClick={() => {setDeleteConfirm(false)}}>Cancel</Button>
           </Stack> : <Button variant='outlined' size='small' color='error' onClick={() => {setDeleteConfirm(true)}}>Remove</Button>}
       </Stack>
     </Card>

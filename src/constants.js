@@ -1,3 +1,9 @@
+const versionNumber = {
+  major: 1,
+  minor: 0,
+  patch: 0
+}
+
 const safetyRatings = ['unknown', 'safe', 'sometimes unsafe', 'usually unsafe', 'always unsafe', 'allergen', 'tooth sensitivity', 'sensory issue']
 
 const itemCategories = ['Vegetables', 'Meats', 'Spices', 'Condiments', 'Fruits', 'Preservatives', 'Dairy', 'Drinks', 'Grains', 'Prepared Foods', 'Nuts']
@@ -139,4 +145,4 @@ const authErrors = {
   "auth/already-initialized": "initializeAuth() has already been called with different options. To avoid this error, call initializeAuth() with the same options as when it was originally called, or call getAuth() to return the already initialized instance."
 }
 
-export { safetyRatings, itemCategories, authErrors }
+export { safetyRatings, itemCategories, authErrors, versionNumber }
