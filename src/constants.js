@@ -4,9 +4,31 @@ const versionNumber = {
   patch: 0
 }
 
-const safetyRatings = ['unknown', 'safe', 'sometimes unsafe', 'usually unsafe', 'always unsafe', 'allergen', 'tooth sensitivity', 'sensory issue']
+const safetyRatings = [
+  'unknown',
+  'safe',
+  'sometimes unsafe',
+  'usually unsafe',
+  'always unsafe',
+  'allergen',
+  'tooth sensitivity',
+  'sensory issue'
+]
 
-const itemCategories = ['Vegetables', 'Meats', 'Spices', 'Condiments', 'Fruits', 'Preservatives', 'Dairy', 'Drinks', 'Grains', 'Prepared Foods', 'Nuts']
+const itemCategories = [
+  'Vegetables',
+  'Meats',
+  'Spices',
+  'Condiments',
+  'Fruits',
+  'Preservatives',
+  'Dairy',
+  'Drinks',
+  'Grains',
+  'Prepared Foods',
+  'Nuts',
+  'Sweets'
+]
 
 const authErrors = {
   "auth/wrong-password": "The password is invalid or the user does not have a password.",
