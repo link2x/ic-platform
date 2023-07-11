@@ -80,7 +80,7 @@ export default function UserBar(props) {
     getDoc(userItemDocument).then((doc) => {
         setUserItemData(doc.data())
     })
-  }, [user])
+  }, [user, userDocument])
 
   React.useEffect(() => {
     setPrivateMode(userItemData?.private)

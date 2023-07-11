@@ -14,30 +14,22 @@ export default function InitializeUser() {
 
   const userDocument = doc(db, 'users/', user.uid)
 
-  const refreshUserData = () => {
-    getDoc(userDocument).then((doc) => {
-      setUserData(doc.data())
-    })
-  }
-
-  const createUserData = () => {
-    let newUserData = {
-      displayName: user.email,
-      emailAddress: user.email,
-      userID: user.uid
-    }
-    setDoc(userDocument, newUserData).then(() => {
-        refreshUserData()
-    })
-  }
-
   React.useEffect(() => {getDoc(userDocument).then((doc) => {
     if ((!doc.exists) || (!doc?.data()?.displayName)) {
-      createUserData()
+      let newUserData = {
+        displayName: user.email,
+        emailAddress: user.email,
+        userID: user.uid
+      }
+      setDoc(userDocument, newUserData).then(() => {
+        getDoc(userDocument).then((doc) => {
+          setUserData(doc.data())
+        })
+      })
     } else {
       setUserData(doc.data())
     }
-  })}, [user])
+  })}, [user, userDocument])
 
   return(
     <Avatar sx={{ width: 32, height: 32 }}>{userData?.displayName[0].toUpperCase()}</Avatar>

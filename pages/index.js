@@ -47,7 +47,7 @@ export default function Home() {
 
     React.useEffect(() => {
         if (user) router.push('/edit');
-      }, [user])
+      }, [user, router])
 
     if (!user) return(
         <Container>

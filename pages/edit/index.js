@@ -52,7 +52,7 @@ export default function Admin() {
 
         return () => unsubGetItems()
         }
-    }, [ user, forceUpdate ] )
+    }, [ user, forceUpdate, itemData ] )
 
     if (loading) return (<div>Loading...</div>)
     else if (!user) return(

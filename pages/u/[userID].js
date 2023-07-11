@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import LoginBox from '../../src/LoginBox';
 import ItemList from '../../src/ItemList';
 import UserBar from '../../src/UserBar';
+import Footer from '../../src/Footer';
 
 export default function ShowUserItems() {
     const router = useRouter()
@@ -31,13 +32,6 @@ export default function ShowUserItems() {
 
     const triggerRefresh = () => {
         setForceUpdate(forceUpdate + 1)
-    }
-
-    const getUser = () => {
-        const userDocument = doc(db, 'users/', user.uid)
-        getDoc(userDocument).then((doc) => {
-            setUserData(doc.data())
-        })
     }
 
     React.useEffect(() => {
@@ -64,11 +58,14 @@ export default function ShowUserItems() {
 
         return () => unsubGetItems()
         }
-    }, [ userID, forceUpdate, user ] )
+    }, [ userID, forceUpdate, user, itemData ] )
 
     React.useMemo(() => {
         if (user) {
-            getUser()
+            const userDocument = doc(db, 'users/', user.uid)
+            getDoc(userDocument).then((doc) => {
+                setUserData(doc.data())
+            })
         }
     }, [ user ])
 
