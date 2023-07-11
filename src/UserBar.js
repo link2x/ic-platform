@@ -80,16 +80,12 @@ export default function UserBar(props) {
     getDoc(userItemDocument).then((doc) => {
         setUserItemData(doc.data())
     })
-  }, [user, userDocument])
+  }, [user])
 
   React.useEffect(() => {
     setPrivateMode(userItemData?.private)
     setUserList(userItemData?.allowView)
   }, [userItemData])
-
-  React.useEffect(() => {
-    console.log(userList)
-  }, [userList])
 
   const [ settingsDialog, setSettingsDialog ] = React.useState(false)
 
