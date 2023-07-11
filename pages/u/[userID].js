@@ -58,7 +58,7 @@ export default function ShowUserItems() {
 
         return () => unsubGetItems()
         }
-    }, [ userID, forceUpdate, user, itemData ] )
+    }, [ userID, forceUpdate, user ] )
 
     React.useMemo(() => {
         if (user) {
