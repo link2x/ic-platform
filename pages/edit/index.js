@@ -36,7 +36,7 @@ export default function Admin() {
         signInWithEmailAndPassword(auth, username, password)
     }
 
-    React.useEffect(() => {
+    React.useMemo(() => {
         if (user) {
         const itemCollection = collection(db, 'items/' + user.uid + '/items')
         const itemQuery = query(itemCollection, orderBy('createTimestamp', 'desc'))
