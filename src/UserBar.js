@@ -116,17 +116,18 @@ export default function UserBar(props) {
       if (!querySnapshot.size) {
         setError('There is no user with that email address.')
         setUpdating(false)
-      }
+      } else {
 
-      querySnapshot.forEach((doc) => {
-        if (userList.includes(doc.id)) {
-          setError('This user is already a trusted user.')
-          setUpdating(false)
-        } else {
-          setUserList(userList.concat(doc.id))
-          setUpdating(false)
-        }
-      });
+        querySnapshot.forEach((doc) => {
+          if (userList.includes(doc.id)) {
+            setError('This user is already a trusted user.')
+            setUpdating(false)
+          } else {
+            setUserList(userList.concat(doc.id))
+            setUpdating(false)
+          }
+        });
+      }
 
       const userDocument = doc(db, 'users/', user.uid)
       getDoc(userDocument).then((doc) => {
