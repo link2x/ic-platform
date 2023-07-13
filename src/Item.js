@@ -18,6 +18,8 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
+import CreateIcon from '@mui/icons-material/Create';
+
 import { db } from './firebase'
 import { doc, deleteDoc, setDoc, Timestamp } from 'firebase/firestore'
 
@@ -36,6 +38,32 @@ export default function Item(props) {
     const [ editCategory, setEditCategory ] = React.useState(itemData?.category)
 
     const [ deleteDialog, setDeleteDialog ] = React.useState(false)
+
+    const formatter = new Intl.RelativeTimeFormat(undefined, {
+        numeric: "auto",
+      })
+      
+      const DIVISIONS = [
+        { amount: 60, name: "seconds" },
+        { amount: 60, name: "minutes" },
+        { amount: 24, name: "hours" },
+        { amount: 7, name: "days" },
+        { amount: 4.34524, name: "weeks" },
+        { amount: 12, name: "months" },
+        { amount: Number.POSITIVE_INFINITY, name: "years" },
+      ]
+      
+      function formatTimeAgo(date) {
+        let duration = (date - new Date()) / 1000
+      
+        for (let i = 0; i < DIVISIONS.length; i++) {
+          const division = DIVISIONS[i]
+          if (Math.abs(duration) < division.amount) {
+            return formatter.format(Math.round(duration), division.name)
+          }
+          duration /= division.amount
+        }
+      }
 
     const itemDocument = doc(db, 'items/' + userID + '/items/' + itemData.itemID)
 
@@ -109,7 +137,7 @@ export default function Item(props) {
 
     const displayNormal = 
         <Grid container direction='row' spacing={2} sx={{alignItems: 'center', p: '0.66em', borderLeftWidth: '0.5em', borderColor: getDangerLevelColor(itemData.rating)}}>
-            <Grid item xs={12} sm={12} md={10}>
+            <Grid item xs={12} sm={12} md={readOnly ? 12 : 10}>
                 <Grid container direction='row' spacing={1} sx={{alignItems: 'center'}}>
                     <Grid item xs={12} sm={12} md={2}>
                         {itemData?.category>-1 && <Chip size='small' variant='outlined' label={itemCategories[itemData.category]} /> }
@@ -122,18 +150,18 @@ export default function Item(props) {
                     </Grid>
                     <Grid item sx={{flexGrow: 1}} />
                     <Grid item>
-                        <Chip size='small' variant='outlined' color='secondary' label={
-                            <Typography variant='caption'>Last Updated: {
-                                itemData?.updateTimestamp ? itemData?.updateTimestamp?.toDate().toLocaleDateString()
-                                    : itemData.createTimestamp.toDate().toLocaleDateString()
+                        <Chip size='small' variant='outlined' color='secondary' icon={<CreateIcon />} label={
+                            <Typography variant='caption'>{
+                                itemData?.updateTimestamp ? formatTimeAgo(itemData?.updateTimestamp?.toDate())
+                                    : formatTimeAgo(itemData.createTimestamp.toDate())
                             }</Typography>
                     } />
                     </Grid>
                 </Grid>
             </Grid>
-            <Box sx={{flexGrow: 1}} />
             {!readOnly &&
                 <>
+                    <Box sx={{flexGrow: 1}} />
                     <Grid item xs={12} sm={12} md={2} xl={2}>
                         <Button fullWidth variant='outlined' onClick={handleEditMode}>Edit</Button>
                     </Grid>
