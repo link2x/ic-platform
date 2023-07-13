@@ -50,7 +50,7 @@ export default function Home() {
       }, [user, router])
 
     if (!user) return(
-        <Container>
+        <Container maxWidth='xl' sx={{mt: '1em'}}>
             <LoginBox />
         </Container>
     )

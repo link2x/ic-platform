@@ -78,7 +78,7 @@ export default function ShowUserItems() {
     )
     else if (loading || !userItemData) return (<div>Loading...</div>)
     else if (!user) return(
-        <Container maxWidth='xl'>
+        <Container maxWidth='xl' sx={{mt: '1em'}}>
             <Stack direction='column' sx={{my: '4em', alignItems: 'center'}}>
                 <Typography variant='h5'>This list is private, please sign in.</Typography>
             </Stack>

@@ -20,6 +20,8 @@ export default function Admin() {
 
     const [user, loading, error] = useAuthState(auth);
 
+    const [ firstLoad, setFirstLoad ] = React.useState(true)
+
     const [ username, setUsername ] = React.useState();
     const [ password, setPassword ] = React.useState();
 
@@ -38,10 +40,10 @@ export default function Admin() {
 
     React.useMemo(() => {
         if (user) {
-        const itemCollection = collection(db, 'items/' + user.uid + '/items')
-        const itemQuery = query(itemCollection, orderBy('createTimestamp', 'desc'))
-        const unsubGetItems = onSnapshot(itemQuery, (docs) => {
-                let newItemData = []
+            const itemCollection = collection(db, 'items/' + user.uid + '/items')
+            const itemQuery = query(itemCollection, orderBy('createTimestamp', 'desc'))
+            const unsubGetItems = onSnapshot(itemQuery, (docs) => {
+                let newItemData = [...itemData]
                 docs.forEach((doc) => {
                     let newItem = doc.data()
                     newItem.itemID = doc.id
@@ -56,7 +58,7 @@ export default function Admin() {
 
     if (loading) return (<div>Loading...</div>)
     else if (!user) return(
-        <Container>
+        <Container maxWidth='xl' sx={{mt: '1em'}}>
             <LoginBox />
         </Container>
     )

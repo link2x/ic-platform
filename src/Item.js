@@ -122,10 +122,10 @@ export default function Item(props) {
                     </Grid>
                     <Grid item sx={{flexGrow: 1}} />
                     <Grid item>
-                        <Chip size='small' variant='outlined' label={
+                        <Chip size='small' variant='outlined' color='secondary' label={
                             <Typography variant='caption'>Last Updated: {
-                                itemData?.updateTimestamp ? itemData?.updateTimestamp?.toDate().toLocaleString()
-                                    : itemData.createTimestamp.toDate().toLocaleString()
+                                itemData?.updateTimestamp ? itemData?.updateTimestamp?.toDate().toLocaleDateString()
+                                    : itemData.createTimestamp.toDate().toLocaleDateString()
                             }</Typography>
                     } />
                     </Grid>

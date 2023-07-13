@@ -32,7 +32,7 @@ export default function InitializeUser() {
   })}, [user, userDocument])
 
   return(
-    <Avatar sx={{ width: 32, height: 32 }}>{userData?.displayName[0].toUpperCase()}</Avatar>
+    <Avatar sx={{ width: 40, height: 40 }}>{userData?.displayName[0].toUpperCase()}</Avatar>
   )
 
 }
