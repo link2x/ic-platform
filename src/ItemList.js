@@ -87,8 +87,8 @@ export default function ItemList(props) {
             </Select>
             <Select fullWidth value={category} onChange={(e) => {setCategory(e.target.value)}}>
                 <MenuItem value={-1}>No Category</MenuItem>
-                {itemCategories.map((categoryText, categoryValue) => 
-                    <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
+                {itemCategories.map((category, categoryValue) => 
+                    <MenuItem key={categoryValue} value={category.categoryID}>{category.categoryName}</MenuItem>
                 )}
             </Select>
             <Button fullWidth variant='outlined' onClick={clearFilters} >Clear Filters</Button>

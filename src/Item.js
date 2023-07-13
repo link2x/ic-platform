@@ -140,7 +140,7 @@ export default function Item(props) {
             <Grid item xs={12} sm={12} md={readOnly ? 12 : 10}>
                 <Grid container direction='row' spacing={1} sx={{alignItems: 'center'}}>
                     <Grid item xs={12} sm={12} md={2}>
-                        {itemData?.category>-1 && <Chip size='small' variant='outlined' label={itemCategories[itemData.category]} /> }
+                        {itemData?.category>-1 && <Chip size='small' variant='outlined' label={itemCategories.find(item => item.categoryID == itemData.category).categoryName} /> }
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Stack>
@@ -182,8 +182,8 @@ export default function Item(props) {
                     </Select>
                     <Select fullWidth disabled={updating} value={editCategory} onChange={(e) => {setEditCategory(e.target.value)}}>
                         <MenuItem value={-1}>No Category</MenuItem>
-                        {itemCategories.map((categoryText, categoryValue) => 
-                            <MenuItem key={categoryValue} value={categoryValue}>{categoryText}</MenuItem>
+                        {itemCategories.map((category, categoryValue) => 
+                            <MenuItem key={categoryValue} value={category.categoryID}>{category.categoryName}</MenuItem>
                         )}
                     </Select>
                 </Stack>

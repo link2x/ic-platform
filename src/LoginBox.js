@@ -66,16 +66,16 @@ export default function LoginBox() {
             </Grid>
         }
         <Grid item xs={12} sm={12} md={5}>
-            <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
+            <TextField fullWidth label='Login' id='user' type='text' disabled={loading} value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
         </Grid>
         <Grid item xs={12} sm={12} md={5}>
-            <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
+            <TextField fullWidth label='Password' id='pass' disabled={loading} type='password' value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
         </Grid>
         <Grid item xs={12} sm={12} md={2}>
-            <Button fullWidth variant='contained' size='large' onClick={attemptLogin}>Login</Button>
+            <Button fullWidth variant='contained' size='large' disabled={loading} onClick={attemptLogin}>Login</Button>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
-            <Button fullWidth variant='text' color='secondary' size='large' onClick={() => {setRegisterMode(!registerMode)}}>Register?</Button>
+            <Button fullWidth variant='text' color='secondary' size='large' disabled={loading} onClick={() => {setRegisterMode(!registerMode)}}>Register?</Button>
         </Grid>
     </Grid>
  </Stack>
@@ -90,20 +90,20 @@ export default function LoginBox() {
                   </Grid>
               }
               <Grid item xs={12} sm={12} md={5}>
-                  <TextField fullWidth label='Login' id='user' type='text' value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
+                  <TextField fullWidth label='Login' id='user' type='text' disabled={loading} value={username} onChange={(e) => {setUsername(e.target.value); setErrorText('')}} />
               </Grid>
               <Grid item xs={12} sm={12} md={5}>
-                  <TextField fullWidth label='Password' id='pass' type='password' value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
+                  <TextField fullWidth label='Password' id='pass' type='password' disabled={loading} value={password} onChange={(e) => {setPassword(e.target.value); setErrorText('')}} />
               </Grid>
               <Grid item xs={12} sm={12} md={5} />
               <Grid item xs={12} sm={12} md={5}>
-                  <TextField fullWidth label='Repeat Password' id='pass' type='password' value={repeatPassword} onChange={(e) => {setRepeatPassword(e.target.value); setErrorText('')}} />
+                  <TextField fullWidth label='Repeat Password' id='pass' type='password' disabled={loading} value={repeatPassword} onChange={(e) => {setRepeatPassword(e.target.value); setErrorText('')}} />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                  <Button fullWidth variant='contained' size='large' onClick={attemptRegister}>Register</Button>
+                  <Button fullWidth variant='contained' size='large' disabled={loading} onClick={attemptRegister}>Register</Button>
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
-                  <Button fullWidth variant='text' color='secondary' size='large' onClick={() => {setRegisterMode(!registerMode)}}>Log In?</Button>
+                  <Button fullWidth variant='text' color='secondary' size='large' disabled={loading} onClick={() => {setRegisterMode(!registerMode)}}>Log In?</Button>
               </Grid>
           </Grid>
       </Stack>
@@ -113,7 +113,10 @@ export default function LoginBox() {
     <Grid container justifyContent={'center'}>
       <Grid item xs={12} sm={10} md={8} lg={6}>
         <Paper elevation={2} sx={{mt: '2em', p: '1em'}}>
-          {registerMode ? registerPanel : loginPanel}
+          <Stack direction='column' alignItems={'center'}>
+            <Typography variant='h4' sx={{pt: '0.5em'}}>IC Safe Foods</Typography>
+            {registerMode ? registerPanel : loginPanel}
+          </Stack>
         </Paper>
       </Grid>
     </Grid>
