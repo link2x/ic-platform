@@ -1,7 +1,7 @@
 const versionNumber = {
   major: 1,
   minor: 0,
-  patch: 7
+  patch: 8
 }
 
 const safetyRatings = [
