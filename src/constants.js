@@ -1,7 +1,7 @@
 const versionNumber = {
   major: 1,
   minor: 0,
-  patch: 6
+  patch: 7
 }
 
 const safetyRatings = [
@@ -16,17 +16,17 @@ const safetyRatings = [
 ]
 
 const itemCategories = [
-  {categoryName: 'Vegetables', categoryID: 0},
-  {categoryName: 'Meats', categoryID: 1},
-  {categoryName: 'Spices', categoryID: 2},
   {categoryName: 'Condiments', categoryID: 3},
-  {categoryName: 'Fruits', categoryID: 4},
-  {categoryName: 'Preservatives', categoryID: 5},
   {categoryName: 'Dairy', categoryID: 6},
   {categoryName: 'Drinks', categoryID: 7},
+  {categoryName: 'Fruits', categoryID: 4},
+  {categoryName: 'Vegetables', categoryID: 0},
   {categoryName: 'Grains', categoryID: 8},
-  {categoryName: 'Prepared Foods', categoryID: 9},
+  {categoryName: 'Meats', categoryID: 1},
   {categoryName: 'Nuts', categoryID: 10},
+  {categoryName: 'Prepared Foods', categoryID: 9},
+  {categoryName: 'Preservatives', categoryID: 5},
+  {categoryName: 'Spices', categoryID: 2},
   {categoryName: 'Sweets', categoryID: 11},
 ]
 
