@@ -144,7 +144,7 @@ export default function Item(props) {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <Stack>
-                            <Typography variant='h6' color={getDangerLevelColor(itemData.rating)}>{itemData.name}</Typography>
+                            <Typography variant='h6' color={getDangerLevelColor(itemData.rating)+'.main'}>{itemData.name}</Typography>
                             <Chip variant={itemData.rating == 0 ? 'outlined' : 'filled'} color={getDangerLevelColor(itemData.rating)} label={safetyRatings[itemData.rating]} />
                         </Stack>
                     </Grid>
